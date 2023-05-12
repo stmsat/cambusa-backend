@@ -50,7 +50,7 @@ public class CambusaControllerDevel {
         Tipo latticino = tipoProdottoRepository.save(new Tipo("latticino", false, 0, true, 1));
         Tipo pane = tipoProdottoRepository.save(new Tipo("pane lievitato fresco", true, 5, false, 0));
         Tipo pane_precotto = tipoProdottoRepository.save(new Tipo("pane lievitato precotto", true, 2, false, 0));
-        Tipo pane_azzimo = tipoProdottoRepository.save(new Tipo("pane lievitato precotto", true, 10, false, 0));
+        Tipo pane_azzimo = tipoProdottoRepository.save(new Tipo("pane azzimo", true, 10, false, 0));
         
         prodottoRepository.save(new Prodotto("mozzarella", LocalDate.now().plusDays(5), latticino, frigorifero, null, false,1));
         prodottoRepository.save(new Prodotto("rosetta", LocalDate.now().plusDays(1), pane_precotto, ambiente, null, false,1));
