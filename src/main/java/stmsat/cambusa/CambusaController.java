@@ -1,12 +1,14 @@
 package stmsat.cambusa;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import stmsat.cambusa.entity.Prodotto;
 import stmsat.cambusa.entity.Stato;
@@ -31,6 +34,7 @@ import stmsat.cambusa.repository.TipoRepository;
  */
 @RestController
 @RequestMapping(path = "/cambusa")
+@Transactional
 public class CambusaController {
     
     @Autowired
@@ -53,8 +57,16 @@ public class CambusaController {
     }
     
     @GetMapping(path = "/tipi", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Tipo> getTipi() {
-        return tipoRepository.findAll();
+    public List<Tipo> getTipi(@RequestParam(name = "name", required = false) String name) {
+        if (name != null) {
+            Tipo example = new Tipo();
+            example.setName(name); //name e' l'unico campo non null di questo Example e quindi l'unico che viene verificato
+            ExampleMatcher matcher = ExampleMatcher.matchingAll().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase();
+            Example<Tipo> e = Example.of(example, matcher);
+            return tipoRepository.findAll(e);
+        } else {
+            return tipoRepository.findAll();
+        }
     }
     
     @GetMapping(path = "/tipi/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -63,8 +75,16 @@ public class CambusaController {
     }
     
     @GetMapping(path = "/stati", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Stato> getStati() {
-        return statoRepository.findAll();
+    public List<Stato> getStati(@RequestParam(name = "name", required = false) String name) {
+        if (name != null) {
+            Stato example = new Stato();
+            example.setName(name); //name e' l'unico campo non null di questo Example e quindi l'unico che viene verificato
+            ExampleMatcher matcher = ExampleMatcher.matchingAll().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase();
+            Example<Stato> e = Example.of(example, matcher);
+            return statoRepository.findAll(e);
+        } else {
+            return statoRepository.findAll();
+        }
     }
     
     @GetMapping(path = "/stati/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -77,6 +97,7 @@ public class CambusaController {
         if (br.hasErrors()) {
             return new ResponseEntity<>(formatBindingErrors(br), HttpStatus.BAD_REQUEST);
         } else {
+            //stato.setDefaultValues(); // gestito da PrePersist
             return new ResponseEntity<>(statoRepository.save(stato), HttpStatus.CREATED);
         }
     }
@@ -86,6 +107,7 @@ public class CambusaController {
         if (br.hasErrors()) {
             return new ResponseEntity<>(formatBindingErrors(br), HttpStatus.BAD_REQUEST);
         } else {
+            //tipo.setDefaultValues(); // gestito da PrePersist
             return new ResponseEntity<>(tipoRepository.save(tipo), HttpStatus.CREATED);
         }
     }
@@ -95,6 +117,7 @@ public class CambusaController {
         if (br.hasErrors()) {
             return new ResponseEntity<>(formatBindingErrors(br), HttpStatus.BAD_REQUEST);
         } else {
+            //prodotto.setDefaultValues(); // gestito da PrePersist
             return new ResponseEntity<>(prodottoRepository.save(prodotto), HttpStatus.CREATED);
         }
     }

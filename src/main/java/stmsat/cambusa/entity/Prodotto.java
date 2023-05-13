@@ -2,6 +2,8 @@ package stmsat.cambusa.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -37,8 +39,22 @@ public class Prodotto extends BaseEntity {
     
     private LocalDate dataApertura;
     
-    private Boolean aperto = false;
+    private Boolean aperto;
     
     @Min(1)
-    private Integer quantita = 1;
+    private Integer quantita;
+    
+    /**
+     * Imposta valori predefiniti per i campi che possono avere un default.
+     */
+    @PrePersist
+    @PreUpdate
+    public void setDefaultValues() {
+        if (this.aperto == null) {
+            this.aperto = false;
+        }
+        if (this.quantita == null) {
+            this.quantita = 1;
+        }
+    }
 }

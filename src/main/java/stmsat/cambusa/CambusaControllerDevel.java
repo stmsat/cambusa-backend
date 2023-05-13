@@ -1,5 +1,6 @@
 package stmsat.cambusa;
 
+import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -23,6 +24,7 @@ import stmsat.cambusa.repository.TipoRepository;
 @RestController()
 @RequestMapping("/cambusaDevel")
 @ConditionalOnProperty(name="stmsat.cambusa.devel", havingValue = "true", matchIfMissing = false)
+@Transactional
 public class CambusaControllerDevel {
     
     @Autowired
