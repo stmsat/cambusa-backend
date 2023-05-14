@@ -1,7 +1,10 @@
 package stmsat.cambusa;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +12,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -46,9 +50,32 @@ public class CambusaController {
     @Autowired
     private StatoRepository statoRepository;
     
+    @Autowired
+    private EntityManager entityManager;
+    
     @GetMapping(path = "/prodotti", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Prodotto> getProdotti() {
-        return prodottoRepository.findAll();
+    public List<Prodotto> getProdotti(
+            @RequestParam(name = "name", required = false, defaultValue = "") String name,
+            @RequestParam(name = "dataScadenza", required = false) LocalDate dataScadenza,
+            @RequestParam(name = "scadenzaEstesa", required = false, defaultValue = "true") Boolean scadenzaEstesa) {
+        Query queryProdotti;
+        StringBuilder sqlQueryProdotti = new StringBuilder("select p from Prodotto p ");
+        sqlQueryProdotti.append("join Tipo t on p.tipo = t.id ");
+        sqlQueryProdotti.append("join Stato s on p.stato = s.id ");
+        sqlQueryProdotti.append("where p.name like '%' || :name || '%' ");
+        if (dataScadenza != null) {
+            if (scadenzaEstesa) {
+                sqlQueryProdotti.append("and p.dataScadenzaGenerata < :dataScadenza");
+            } else {
+                sqlQueryProdotti.append("and p.dataScadenza < :dataScadenza");
+            }
+        }
+        queryProdotti = this.entityManager.createQuery(sqlQueryProdotti.toString());
+        queryProdotti.setParameter("name", name);
+        if (dataScadenza != null) {
+            queryProdotti.setParameter("dataScadenza", dataScadenza);
+        }
+        return queryProdotti.getResultList();
     }
     
     @GetMapping(path = "/prodotti/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -57,15 +84,15 @@ public class CambusaController {
     }
     
     @GetMapping(path = "/tipi", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Tipo> getTipi(@RequestParam(name = "name", required = false) String name) {
+    public List<Tipo> getTipi(@RequestParam(name = "name", required = false) String name, @RequestParam(name = "sortby", required = false, defaultValue = "name") String[] sortby) {
         if (name != null) {
             Tipo example = new Tipo();
             example.setName(name); //name e' l'unico campo non null di questo Example e quindi l'unico che viene verificato
             ExampleMatcher matcher = ExampleMatcher.matchingAll().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase();
             Example<Tipo> e = Example.of(example, matcher);
-            return tipoRepository.findAll(e);
+            return tipoRepository.findAll(e, Sort.by(sortby));
         } else {
-            return tipoRepository.findAll();
+            return tipoRepository.findAll(Sort.by(sortby));
         }
     }
     
@@ -75,15 +102,15 @@ public class CambusaController {
     }
     
     @GetMapping(path = "/stati", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Stato> getStati(@RequestParam(name = "name", required = false) String name) {
+    public List<Stato> getStati(@RequestParam(name = "name", required = false) String name, @RequestParam(name = "sortby", required = false, defaultValue = "name") String[] sortby) {
         if (name != null) {
             Stato example = new Stato();
             example.setName(name); //name e' l'unico campo non null di questo Example e quindi l'unico che viene verificato
             ExampleMatcher matcher = ExampleMatcher.matchingAll().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase();
             Example<Stato> e = Example.of(example, matcher);
-            return statoRepository.findAll(e);
+            return statoRepository.findAll(e, Sort.by(sortby));
         } else {
-            return statoRepository.findAll();
+            return statoRepository.findAll(Sort.by(sortby));
         }
     }
     
