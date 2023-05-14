@@ -26,11 +26,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import stmsat.cambusa.entity.Prodotto;
-import stmsat.cambusa.entity.Stato;
+import stmsat.cambusa.entity.Posizione;
 import stmsat.cambusa.entity.Tipo;
 import stmsat.cambusa.repository.ProdottoRepository;
-import stmsat.cambusa.repository.StatoRepository;
 import stmsat.cambusa.repository.TipoRepository;
+import stmsat.cambusa.repository.PosizioneRepository;
 
 /**
  *
@@ -48,7 +48,7 @@ public class CambusaController {
     private TipoRepository tipoRepository;
     
     @Autowired
-    private StatoRepository statoRepository;
+    private PosizioneRepository posizioneRepository;
     
     @Autowired
     private EntityManager entityManager;
@@ -62,10 +62,10 @@ public class CambusaController {
             @RequestParam(name = "dataScadenza", required = false) LocalDate dataScadenza,
             @RequestParam(name = "scadenzaEstesa", required = false, defaultValue = "true") Boolean scadenzaEstesa) {
         Query queryProdotti;
-        StringBuilder sqlQueryProdotti = new StringBuilder("select p from Prodotto p ");
-        sqlQueryProdotti.append("join Tipo t on p.tipo = t.id ");
-        sqlQueryProdotti.append("join Stato s on p.stato = s.id ");
-        sqlQueryProdotti.append("where p.name like '%' || :name || '%' ");
+        StringBuilder sqlQueryProdotti = new StringBuilder("select prod from Prodotto prod ");
+        sqlQueryProdotti.append("join Tipo tip on prod.tipo = tip.id ");
+        sqlQueryProdotti.append("left join Posizione pos on prod.posizione = pos.id ");
+        sqlQueryProdotti.append("where prod.name like '%' || :name || '%' ");
         if (dataScadenza != null) {
             if (scadenzaEstesa) {
                 sqlQueryProdotti.append("and p.dataScadenzaGenerata < :dataScadenza");
@@ -104,30 +104,30 @@ public class CambusaController {
         return tipoRepository.findById(id);
     }
     
-    @GetMapping(path = "/stati", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Stato> getStati(@RequestParam(name = "name", required = false) String name, @RequestParam(name = "sortby", required = false, defaultValue = "name") String[] sortby) {
+    @GetMapping(path = "/posizioni", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Posizione> getPosizioni(@RequestParam(name = "name", required = false) String name, @RequestParam(name = "sortby", required = false, defaultValue = "name") String[] sortby) {
         if (name != null) {
-            Stato example = new Stato();
+            Posizione example = new Posizione();
             example.setName(name); //name e' l'unico campo non null di questo Example e quindi l'unico che viene verificato
             ExampleMatcher matcher = ExampleMatcher.matchingAll().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase();
-            Example<Stato> e = Example.of(example, matcher);
-            return statoRepository.findAll(e, Sort.by(sortby));
+            Example<Posizione> e = Example.of(example, matcher);
+            return posizioneRepository.findAll(e, Sort.by(sortby));
         } else {
-            return statoRepository.findAll(Sort.by(sortby));
+            return posizioneRepository.findAll(Sort.by(sortby));
         }
     }
     
-    @GetMapping(path = "/stati/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Optional<Stato> getStato(@PathVariable("id") UUID id) {
-        return statoRepository.findById(id);
+    @GetMapping(path = "/posizioni/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Optional<Posizione> getPosizione(@PathVariable("id") UUID id) {
+        return posizioneRepository.findById(id);
     }
     
-    @PutMapping(path = "/stati", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> putStato(@Valid @RequestBody Stato stato, BindingResult br) {
+    @PutMapping(path = "/posizioni", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> putPosizione(@Valid @RequestBody Posizione posizione, BindingResult br) {
         if (br.hasErrors()) {
             return new ResponseEntity<>(formatBindingErrors(br), HttpStatus.BAD_REQUEST);
         } else {
-            return new ResponseEntity<>(statoRepository.save(stato), HttpStatus.CREATED);
+            return new ResponseEntity<>(posizioneRepository.save(posizione), HttpStatus.CREATED);
         }
     }
     

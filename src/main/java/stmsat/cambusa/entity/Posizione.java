@@ -17,10 +17,10 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Stato extends BaseEntity {
+public class Posizione extends BaseEntity {
     
     @Setter
-    @NotEmpty(message = "Indicare un nome per lo stato del prodotto")
+    @NotEmpty(message = "Indicare un nome per la posizione del prodotto")
     private String name;
     
     

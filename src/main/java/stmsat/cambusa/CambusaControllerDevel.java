@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import stmsat.cambusa.entity.Prodotto;
-import stmsat.cambusa.entity.Stato;
+import stmsat.cambusa.entity.Posizione;
 import stmsat.cambusa.entity.Tipo;
 import stmsat.cambusa.repository.ProdottoRepository;
-import stmsat.cambusa.repository.StatoRepository;
 import stmsat.cambusa.repository.TipoRepository;
+import stmsat.cambusa.repository.PosizioneRepository;
 
 /**
  * Controller per funzionalit&agrave; disponibili solo in ambiente di sviluppo.
@@ -34,20 +34,20 @@ public class CambusaControllerDevel {
     private TipoRepository tipoProdottoRepository;
     
     @Autowired
-    private StatoRepository statoRepository;
+    private PosizioneRepository posizioneRepository;
     
     @GetMapping(path = "/init", produces = "application/json")
     public ResponseEntity<String> init() {
         prodottoRepository.deleteAll();
         tipoProdottoRepository.deleteAll();
-        statoRepository.deleteAll();
+        posizioneRepository.deleteAll();
         
         String messaggio = "{\"message\": \"Database inizializzato\"}";
         
-        Stato freezer = statoRepository.save(new Stato("freezer"));
-        Stato frigorifero = statoRepository.save(new Stato("frigorifero"));
-        Stato ambiente = statoRepository.save(new Stato("ambiente"));
-        Stato contenitore_ermetico = statoRepository.save(new Stato("contenitore ermetico"));
+        Posizione freezer = posizioneRepository.save(new Posizione("freezer"));
+        Posizione frigorifero = posizioneRepository.save(new Posizione("frigorifero"));
+        Posizione pensili_cucina = posizioneRepository.save(new Posizione("pensili cucina"));
+        Posizione scaffali_dispensa = posizioneRepository.save(new Posizione("scaffali dispensa"));
         
         Tipo latticino = tipoProdottoRepository.save(new Tipo("latticino", false, 0, true, 1));
         Tipo pane = tipoProdottoRepository.save(new Tipo("pane lievitato fresco", true, 5, false, 0));
@@ -55,7 +55,8 @@ public class CambusaControllerDevel {
         Tipo pane_azzimo = tipoProdottoRepository.save(new Tipo("pane azzimo", true, 10, false, 0));
         
         prodottoRepository.save(new Prodotto("mozzarella", LocalDate.now().plusDays(5), latticino, frigorifero, null, false,1));
-        prodottoRepository.save(new Prodotto("rosetta", LocalDate.now().plusDays(1), pane_precotto, ambiente, null, false,1));
+        prodottoRepository.save(new Prodotto("rosetta", LocalDate.now().plusDays(1), pane_precotto, scaffali_dispensa, null, false,1));
+        prodottoRepository.save(new Prodotto("pane non lievitato ACME", LocalDate.now().plusDays(1), pane_azzimo, null, null, false,1));
         
         return new ResponseEntity<>(messaggio, HttpStatus.CREATED);
     }

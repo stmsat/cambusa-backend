@@ -28,11 +28,11 @@ public class Prodotto extends BaseEntity {
     public Prodotto() {
     }
     
-    public Prodotto(String name, LocalDate dataScadenza, Tipo tipo, Stato stato, LocalDate dataApertura, Boolean aperto, Integer quantita) {
+    public Prodotto(String name, LocalDate dataScadenza, Tipo tipo, Posizione posizione, LocalDate dataApertura, Boolean aperto, Integer quantita) {
         this.name = Objects.requireNonNull(name, "Specificare name");
         this.dataScadenza = Objects.requireNonNull(dataScadenza, "Specificare dataScadenza");
         this.tipo = Objects.requireNonNull(tipo, "Specificare tipo");
-        this.stato = Objects.requireNonNull(stato, "Specificare stato");
+        this.posizione = posizione;
         this.dataApertura = dataApertura;
         this.aperto = aperto;
         this.quantita = quantita;
@@ -51,8 +51,7 @@ public class Prodotto extends BaseEntity {
     private Tipo tipo;
     
     @ManyToOne
-    @NotNull(message = "Indicare lo stato del prodotto")
-    private Stato stato;
+    private Posizione posizione;
     
     private LocalDate dataApertura;
     
