@@ -65,10 +65,8 @@ public class Prodotto extends BaseEntity {
     
     /**
      * Imposta la dataScadenzaGenerata per il prodotto in base al fatto che quella definita sia solo preferibile, e se il prodotto sia aperto o meno.
-     * 
-     * @return 
      */
-    private void generaDataScadenza() {
+    public void generaDataScadenza() {
         LocalDate dataGenerataPostScadenza = this.dataScadenza;
         LocalDate dataGenerataPostApertura = this.dataApertura;
         if (tipo.getDataScadenzaPreferibile()) {

@@ -53,6 +53,9 @@ public class CambusaController {
     @Autowired
     private EntityManager entityManager;
     
+    @Autowired
+    private CambusaService cambusaService;
+    
     @GetMapping(path = "/prodotti", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Prodotto> getProdotti(
             @RequestParam(name = "name", required = false, defaultValue = "") String name,
@@ -124,7 +127,6 @@ public class CambusaController {
         if (br.hasErrors()) {
             return new ResponseEntity<>(formatBindingErrors(br), HttpStatus.BAD_REQUEST);
         } else {
-            //stato.setDefaultValues(); // gestito da PrePersist
             return new ResponseEntity<>(statoRepository.save(stato), HttpStatus.CREATED);
         }
     }
@@ -134,8 +136,9 @@ public class CambusaController {
         if (br.hasErrors()) {
             return new ResponseEntity<>(formatBindingErrors(br), HttpStatus.BAD_REQUEST);
         } else {
-            //tipo.setDefaultValues(); // gestito da PrePersist
-            return new ResponseEntity<>(tipoRepository.save(tipo), HttpStatus.CREATED);
+            tipo = tipoRepository.save(tipo);
+            this.cambusaService.ricalcolaDataScadenzaProdotti(tipo);
+            return new ResponseEntity<>(tipo, HttpStatus.CREATED);
         }
     }
     
