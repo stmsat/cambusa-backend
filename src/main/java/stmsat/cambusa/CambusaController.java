@@ -1,10 +1,14 @@
 package stmsat.cambusa;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -56,29 +60,55 @@ public class CambusaController {
     @Autowired
     private CambusaService cambusaService;
     
+    /**
+     * Endpoint per la lista dei prodotti.
+     * 
+     * @param name Il nome del prodotto contiene questa stringa
+     * @param dataScadenzaLt Il prodotto scade prima di questa data (YYYY-MM-DD)
+     * @param dataScadenzaGenerataLt Il prodotto scade prima di questa data "estesa" (YYYY-MM-DD)
+     * @param dataScadenzaGt Il prodotto scade dopo questa data (YYYY-MM-DD)
+     * @param dataScadenzaGenerataGt Il prodotto scade dopo questa data "estesa" (YYYY-MM-DD)
+     * @param tipo Id del Tipo di prodotto (parametro ripetibile, o valori separati da virgola)
+     * @param posizione Id della Posizione del prodotto (parametro ripetibile, o valori separati da virgola)
+     * @return Lista dei prodotti che corrispondono ai criteri di ricerca
+     */
     @GetMapping(path = "/prodotti", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Prodotto> getProdotti(
             @RequestParam(name = "name", required = false, defaultValue = "") String name,
-            @RequestParam(name = "dataScadenza", required = false) LocalDate dataScadenza,
-            @RequestParam(name = "scadenzaEstesa", required = false, defaultValue = "true") Boolean scadenzaEstesa) {
-        Query queryProdotti;
-        StringBuilder sqlQueryProdotti = new StringBuilder("select prod from Prodotto prod ");
-        sqlQueryProdotti.append("join Tipo tip on prod.tipo = tip.id ");
-        sqlQueryProdotti.append("left join Posizione pos on prod.posizione = pos.id ");
-        sqlQueryProdotti.append("where prod.name like '%' || :name || '%' ");
-        if (dataScadenza != null) {
-            if (scadenzaEstesa) {
-                sqlQueryProdotti.append("and p.dataScadenzaGenerata < :dataScadenza");
-            } else {
-                sqlQueryProdotti.append("and p.dataScadenza < :dataScadenza");
-            }
+            @RequestParam(name = "dataScadenzaLt", required = false) LocalDate dataScadenzaLt,
+            @RequestParam(name = "dataScadenzaGenerataLt", required = false) LocalDate dataScadenzaGenerataLt,
+            @RequestParam(name = "dataScadenzaGt", required = false) LocalDate dataScadenzaGt,
+            @RequestParam(name = "dataScadenzaGenerataGt", required = false) LocalDate dataScadenzaGenerataGt,
+            @RequestParam(name = "tipo", required = false) List<Tipo> tipo,
+            @RequestParam(name = "posizione", required = false) List<Posizione> posizione
+    ) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Prodotto> cquery = cb.createQuery(Prodotto.class);
+        Root<Prodotto> prodotto = cquery.from(Prodotto.class);
+        ArrayList<Predicate> predicati = new ArrayList<>();
+        if (name != null) {
+            predicati.add(cb.like(prodotto.get("name").as(String.class), "%" + name + "%"));
         }
-        queryProdotti = this.entityManager.createQuery(sqlQueryProdotti.toString());
-        queryProdotti.setParameter("name", name);
-        if (dataScadenza != null) {
-            queryProdotti.setParameter("dataScadenza", dataScadenza);
+        if (tipo != null && !tipo.isEmpty()) {
+            predicati.add(prodotto.get("tipo").in(tipo));
         }
-        return queryProdotti.getResultList();
+        if (posizione != null && !posizione.isEmpty()) {
+            predicati.add(prodotto.get("posizione").in(posizione));
+        }
+        if (dataScadenzaLt != null) {
+            predicati.add(cb.lessThanOrEqualTo(prodotto.get("dataScadenza").as(LocalDate.class), dataScadenzaLt));
+        }
+        if (dataScadenzaGenerataLt != null) {
+            predicati.add(cb.lessThanOrEqualTo(prodotto.get("dataScadenzaGenerata").as(LocalDate.class), dataScadenzaGenerataLt));
+        }
+        if (dataScadenzaGt != null) {
+            predicati.add(cb.greaterThan(prodotto.get("dataScadenza").as(LocalDate.class), dataScadenzaGt));
+        }
+        if (dataScadenzaGenerataGt != null) {
+            predicati.add(cb.greaterThan(prodotto.get("dataScadenzaGenerata").as(LocalDate.class), dataScadenzaGenerataGt));
+        }
+        cquery.select(prodotto).where(predicati.toArray(Predicate[]::new));
+        return this.entityManager.createQuery(cquery).getResultList();
     }
     
     @GetMapping(path = "/prodotti/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -87,15 +117,20 @@ public class CambusaController {
     }
     
     @GetMapping(path = "/tipi", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Tipo> getTipi(@RequestParam(name = "name", required = false) String name, @RequestParam(name = "sortby", required = false, defaultValue = "name") String[] sortby) {
+    public List<Tipo> getTipi(
+            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "sortby", required = false, defaultValue = "name") String[] sortby,
+            @RequestParam(name = "sortdirection", required = false, defaultValue = "ASC") String[] sortdirection
+    ) {
+        List<Sort.Order> ordinamenti = parseOrdinamento(sortby, sortdirection);
         if (name != null) {
             Tipo example = new Tipo();
             example.setName(name); //name e' l'unico campo non null di questo Example e quindi l'unico che viene verificato
             ExampleMatcher matcher = ExampleMatcher.matchingAll().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase();
             Example<Tipo> e = Example.of(example, matcher);
-            return tipoRepository.findAll(e, Sort.by(sortby));
+            return tipoRepository.findAll(e, Sort.by(ordinamenti));
         } else {
-            return tipoRepository.findAll(Sort.by(sortby));
+            return tipoRepository.findAll(Sort.by(ordinamenti));
         }
     }
     
@@ -105,15 +140,20 @@ public class CambusaController {
     }
     
     @GetMapping(path = "/posizioni", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Posizione> getPosizioni(@RequestParam(name = "name", required = false) String name, @RequestParam(name = "sortby", required = false, defaultValue = "name") String[] sortby) {
+    public List<Posizione> getPosizioni(
+            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "sortby", required = false, defaultValue = "name") String[] sortby,
+            @RequestParam(name = "sortdirection", required = false, defaultValue = "ASC") String[] sortdirection
+    ) {
+        List<Sort.Order> ordinamenti = parseOrdinamento(sortby, sortdirection);
         if (name != null) {
             Posizione example = new Posizione();
             example.setName(name); //name e' l'unico campo non null di questo Example e quindi l'unico che viene verificato
             ExampleMatcher matcher = ExampleMatcher.matchingAll().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase();
             Example<Posizione> e = Example.of(example, matcher);
-            return posizioneRepository.findAll(e, Sort.by(sortby));
+            return posizioneRepository.findAll(e, Sort.by(ordinamenti));
         } else {
-            return posizioneRepository.findAll(Sort.by(sortby));
+            return posizioneRepository.findAll(Sort.by(ordinamenti));
         }
     }
     
@@ -158,5 +198,25 @@ public class CambusaController {
             listaErrori.add(oe.getDefaultMessage());
         }
         return listaErrori;
+    }
+    
+    /**
+     * Ipotesi di metodo di ordinamento comune laddove si usa findAll.
+     * 
+     * @param sortby Elenco campi per cui ordinare.
+     * @param sortdirection Elenco direzione ordinamento (ASC/DESC); se la lunghezza dell'array non corrisponde a quella di sortby viene usato il primo.
+     * @return 
+     */
+    private List<Sort.Order> parseOrdinamento(String[] sortby, String[] sortdirection) {
+        List<Sort.Order> ordinamenti = new LinkedList<>();
+        if (sortby != null) {
+            for (int s = 0; s < sortby.length; s++) {
+                Sort.Direction dir = sortdirection == null ? Sort.Direction.ASC 
+                        : sortdirection.length > s ? Sort.Direction.valueOf(sortdirection[s])
+                        : Sort.Direction.valueOf(sortdirection[0]);
+                ordinamenti.add(new Sort.Order(dir, sortby[s]));
+            }
+        }
+        return ordinamenti;
     }
 }
