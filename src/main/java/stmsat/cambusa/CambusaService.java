@@ -23,6 +23,10 @@ public class CambusaService {
     @Autowired
     private EntityManager entityManager;
     
+    /**
+     * Forza il ricalcolo delle date di scadenza di tutti i prodotti associati al Tipo (ad esempio se il Tipo &egrave; cambiato). 
+     * @param tipo 
+     */
     public void ricalcolaDataScadenzaProdotti(Tipo tipo) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Prodotto> criteria = cb.createQuery(Prodotto.class);
