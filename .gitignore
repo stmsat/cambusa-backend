@@ -33,6 +33,5 @@ build/
 .vscode/
 
 #local
-/.mvn/wrapper/maven-wrapper.jar
 /nbactions.xml
 /internaldb.*.db
