@@ -16,7 +16,6 @@ import java.util.Optional;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +23,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -284,6 +284,31 @@ public class CambusaController {
     public ResponseEntity<String> deleteProdotto(@PathVariable(name = "id") UUID id) {
         this.prodottoRepository.deleteById(id);
         return new ResponseEntity<>("Cancellazione effettuata", HttpStatus.OK);
+    }
+    
+    /**
+     * Imposta lo stato e data di apertura del prodotto e rigenera la data di scadenza.
+     * 
+     * @param id
+     * @param aperto
+     * @param dataApertura Opzionale, altrimenti oggi.
+     * @return 
+     */
+    @PatchMapping(path = "/prodotti/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Prodotto> apriProdotto(@PathVariable("id") UUID id, @RequestParam(name = "aperto") Boolean aperto, @RequestParam(name = "dataApertura", required = false) LocalDate dataApertura) {
+        Prodotto prodotto = entityManager.find(Prodotto.class, id);
+        if (prodotto.getTipo().getApribile()) {
+            prodotto.setAperto(aperto);
+            if (!aperto) {
+                dataApertura = null;
+            }
+            // se aperto=true e dataApertura non specificata, viene impostato oggi in fase di persistenza; altrimenti si forza null
+            prodotto.setDataApertura(dataApertura);
+            prodotto.generaDataScadenza();
+            return new ResponseEntity<>(entityManager.merge(prodotto), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(prodotto, HttpStatus.BAD_REQUEST);
+        }
     }
     
     /**

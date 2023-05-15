@@ -53,8 +53,10 @@ public class Prodotto extends BaseEntity {
     @ManyToOne
     private Posizione posizione;
     
+    @Setter
     private LocalDate dataApertura;
     
+    @Setter
     private Boolean aperto;
     
     @Min(1)
@@ -97,6 +99,9 @@ public class Prodotto extends BaseEntity {
         }
         if (this.aperto && this.dataApertura == null) {
             this.dataApertura = LocalDate.now();
+        }
+        if (!this.aperto) {
+            this.dataApertura = null;
         }
         if (this.quantita == null) {
             this.quantita = 1;

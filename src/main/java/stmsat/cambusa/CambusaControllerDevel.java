@@ -50,13 +50,14 @@ public class CambusaControllerDevel {
         Posizione scaffali_dispensa = posizioneRepository.save(new Posizione("scaffali dispensa"));
         
         Tipo latticino = tipoProdottoRepository.save(new Tipo("latticino", false, 0, true, 1));
-        Tipo pane = tipoProdottoRepository.save(new Tipo("pane lievitato fresco", true, 5, false, 0));
+        Tipo pane_lievitato = tipoProdottoRepository.save(new Tipo("pane lievitato fresco", true, 5, false, 0));
         Tipo pane_precotto = tipoProdottoRepository.save(new Tipo("pane lievitato precotto", true, 2, false, 0));
         Tipo pane_azzimo = tipoProdottoRepository.save(new Tipo("pane azzimo", true, 10, false, 0));
         
         prodottoRepository.save(new Prodotto("mozzarella", LocalDate.now().plusDays(5), latticino, frigorifero, null, false,1));
+        prodottoRepository.save(new Prodotto("pane all'olio", LocalDate.now().plusDays(3), pane_lievitato, pensili_cucina, null, false,1));
         prodottoRepository.save(new Prodotto("rosetta", LocalDate.now().plusDays(1), pane_precotto, scaffali_dispensa, null, false,1));
-        prodottoRepository.save(new Prodotto("pane non lievitato ACME", LocalDate.now().plusDays(1), pane_azzimo, null, null, false,1));
+        prodottoRepository.save(new Prodotto("pane non lievitato", LocalDate.now().plusDays(1), pane_azzimo, null, null, false,1));
         
         return new ResponseEntity<>(messaggio, HttpStatus.CREATED);
     }
