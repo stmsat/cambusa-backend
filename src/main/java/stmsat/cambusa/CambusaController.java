@@ -14,12 +14,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -41,6 +44,7 @@ import stmsat.cambusa.repository.PosizioneRepository;
 @RestController
 @RequestMapping(path = "/cambusa")
 @Transactional
+@Slf4j
 public class CambusaController {
     
     @Autowired
@@ -242,9 +246,44 @@ public class CambusaController {
         if (br.hasErrors()) {
             return new ResponseEntity<>(formatBindingErrors(br), HttpStatus.BAD_REQUEST);
         } else {
-            //prodotto.setDefaultValues(); // gestito da PrePersist
             return new ResponseEntity<>(prodottoRepository.save(prodotto), HttpStatus.CREATED);
         }
+    }
+    
+    /**
+     * Cancellazione Posizione (va in errore se viola un vincolo foreign key).
+     * 
+     * @param id
+     * @return 
+     */
+    @DeleteMapping(path = "/posizioni/{id}", produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity<String> deletePosizione(@PathVariable(name = "id") UUID id) {
+        this.posizioneRepository.deleteById(id);
+        return new ResponseEntity<>("Cancellazione effettuata", HttpStatus.OK);
+    }
+    
+    /**
+     * Cancellazione Tipo (va in errore se viola un vincolo foreign key).
+     * 
+     * @param id
+     * @return 
+     */
+    @DeleteMapping(path = "/tipi/{id}", produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity<String> deleteTipo(@PathVariable(name = "id") UUID id) {
+        this.tipoRepository.deleteById(id);
+        return new ResponseEntity<>("Cancellazione effettuata", HttpStatus.OK);
+    }
+    
+    /**
+     * Cancellazione Prodotto.
+     * 
+     * @param id
+     * @return 
+     */
+    @DeleteMapping(path = "/prodotti/{id}", produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity<String> deleteProdotto(@PathVariable(name = "id") UUID id) {
+        this.prodottoRepository.deleteById(id);
+        return new ResponseEntity<>("Cancellazione effettuata", HttpStatus.OK);
     }
     
     /**

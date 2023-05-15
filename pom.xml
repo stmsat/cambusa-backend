@@ -10,7 +10,7 @@
     </parent>
     <groupId>stmsat.cambusa</groupId>
     <artifactId>cambusa-backend</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
     <name>cambusa-backend</name>
     <description>cambusa-backend</description>
     <properties>
