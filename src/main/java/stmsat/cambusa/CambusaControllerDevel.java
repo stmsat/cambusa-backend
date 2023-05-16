@@ -1,5 +1,6 @@
 package stmsat.cambusa;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ public class CambusaControllerDevel {
     private PosizioneRepository posizioneRepository;
     
     @GetMapping(path = "/init", produces = "application/json")
+    @Operation(description = "Inizializza il dataset di test")
     public ResponseEntity<String> init() {
         prodottoRepository.deleteAll();
         tipoProdottoRepository.deleteAll();

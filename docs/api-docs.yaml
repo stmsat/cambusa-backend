@@ -1,7 +1,10 @@
 openapi: 3.0.1
 info:
-  title: OpenAPI definition
-  version: v0
+  title: cambusa-controller
+  description: Servizio per la tracciatura delle scadenze dei prodotti
+  contact:
+    name: /stmsat/cambusa-backend
+    url: https://github.com/stmsat/cambusa-backend
 servers:
 - url: http://127.0.0.1:8080
   description: Generated server url
@@ -10,6 +13,7 @@ paths:
     get:
       tags:
       - cambusa-controller
+      description: "Lista dei tipi, ricercabile per nome e ordinabile"
       operationId: getTipi
       parameters:
       - name: name
@@ -47,6 +51,7 @@ paths:
     put:
       tags:
       - cambusa-controller
+      description: Salva un TIpo (insert o update)
       operationId: putTipo
       requestBody:
         content:
@@ -65,6 +70,7 @@ paths:
     get:
       tags:
       - cambusa-controller
+      description: "Lista dei prodotti, ricercabile per vari parametri"
       operationId: getProdotti
       parameters:
       - name: name
@@ -141,6 +147,7 @@ paths:
     put:
       tags:
       - cambusa-controller
+      description: Salva un Prodotto (insert o update)
       operationId: putProdotto
       requestBody:
         content:
@@ -159,6 +166,7 @@ paths:
     get:
       tags:
       - cambusa-controller
+      description: "Lista delle posizioni, ricercabile per nome e ordinabile"
       operationId: getPosizioni
       parameters:
       - name: name
@@ -196,6 +204,7 @@ paths:
     put:
       tags:
       - cambusa-controller
+      description: Salva una Posizione (insert o update)
       operationId: putPosizione
       requestBody:
         content:
@@ -214,6 +223,7 @@ paths:
     get:
       tags:
       - cambusa-controller
+      description: Prodotto per Id
       operationId: getProdotto
       parameters:
       - name: id
@@ -232,6 +242,7 @@ paths:
     delete:
       tags:
       - cambusa-controller
+      description: Elimina un Prodotto
       operationId: deleteProdotto
       parameters:
       - name: id
@@ -250,7 +261,8 @@ paths:
     patch:
       tags:
       - cambusa-controller
-      operationId: apriProdotto
+      description: Aggiorna singoli campi di un Prodotto
+      operationId: patchProdotto
       parameters:
       - name: id
         in: path
@@ -260,7 +272,7 @@ paths:
           format: uuid
       - name: aperto
         in: query
-        required: true
+        required: false
         schema:
           type: boolean
       - name: dataApertura
@@ -269,6 +281,12 @@ paths:
         schema:
           type: string
           format: date
+      - name: quantita
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
       responses:
         "200":
           description: OK
@@ -280,6 +298,7 @@ paths:
     get:
       tags:
       - cambusa-controller-devel
+      description: Inizializza il dataset di test
       operationId: init
       responses:
         "200":
@@ -292,6 +311,7 @@ paths:
     get:
       tags:
       - cambusa-controller
+      description: Tipo per Id
       operationId: getTipo
       parameters:
       - name: id
@@ -310,6 +330,7 @@ paths:
     delete:
       tags:
       - cambusa-controller
+      description: Elimina un Tipo
       operationId: deleteTipo
       parameters:
       - name: id
@@ -329,6 +350,7 @@ paths:
     get:
       tags:
       - cambusa-controller
+      description: Posizione per Id
       operationId: getPosizione
       parameters:
       - name: id
@@ -347,6 +369,7 @@ paths:
     delete:
       tags:
       - cambusa-controller
+      description: Elimina una Posizione
       operationId: deletePosizione
       parameters:
       - name: id

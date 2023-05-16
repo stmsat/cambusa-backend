@@ -53,13 +53,28 @@ public class Prodotto extends BaseEntity {
     @ManyToOne
     private Posizione posizione;
     
-    @Setter
     private LocalDate dataApertura;
+    
+    /**
+     * Imposta dataApertura solo se il prodotto e' aperto.
+     * 
+     * @param dataApertura 
+     */
+    public void setDataApertura(LocalDate dataApertura) {
+        if (this.getAperto()) {
+            if (dataApertura != null) {
+                this.dataApertura = dataApertura;
+            }
+        } else {
+            this.dataApertura = null;
+        }
+    }
     
     @Setter
     private Boolean aperto;
     
-    @Min(1)
+    @Min(value = 1, message = "Impostare almeno 1 come quantita")
+    @Setter
     private Integer quantita;
     
     private LocalDate dataScadenzaGenerata;

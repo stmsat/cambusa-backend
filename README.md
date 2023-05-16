@@ -52,3 +52,4 @@ Si riportano qui versioni statiche delle definizioni (che potrebbero diventare o
 
 * [docs/api-docs.json](docs/api-docs.json)
 * [docs/api-docs.yaml](docs/api-docs.yaml)
+* [docs/index.html](docs/index.html) (da scaricare e consultare in locale)

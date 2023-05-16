@@ -1,5 +1,9 @@
 package stmsat.cambusa;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -43,6 +47,16 @@ import stmsat.cambusa.repository.PosizioneRepository;
  */
 @RestController
 @RequestMapping(path = "/cambusa")
+@OpenAPIDefinition(
+        info = @Info(
+                title = "cambusa-controller",
+                description = "Servizio per la tracciatura delle scadenze dei prodotti",
+                contact = @Contact(
+                        name = "/stmsat/cambusa-backend",
+                        url = "https://github.com/stmsat/cambusa-backend"
+                )
+        )
+)
 @Transactional
 @Slf4j
 public class CambusaController {
@@ -77,6 +91,7 @@ public class CambusaController {
      * @return Lista dei prodotti che corrispondono ai criteri di ricerca
      */
     @GetMapping(path = "/prodotti", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(description = "Lista dei prodotti, ricercabile per vari parametri")
     public List<Prodotto> getProdotti(
             @RequestParam(name = "name", required = false, defaultValue = "") String name,
             @RequestParam(name = "dataScadenzaLt", required = false) LocalDate dataScadenzaLt,
@@ -124,6 +139,7 @@ public class CambusaController {
      * @return 
      */
     @GetMapping(path = "/prodotti/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(description = "Prodotto per Id")
     public Optional<Prodotto> getProdotto(@PathVariable("id") UUID id) {
         return prodottoRepository.findById(id);
     }
@@ -137,6 +153,7 @@ public class CambusaController {
      * @return 
      */
     @GetMapping(path = "/tipi", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(description = "Lista dei tipi, ricercabile per nome e ordinabile")
     public List<Tipo> getTipi(
             @RequestParam(name = "name", required = false) String name,
             @RequestParam(name = "sortby", required = false, defaultValue = "name") String[] sortby,
@@ -160,6 +177,7 @@ public class CambusaController {
      * @return 
      */
     @GetMapping(path = "/tipi/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(description = "Tipo per Id")
     public Optional<Tipo> getTipo(@PathVariable("id") UUID id) {
         return tipoRepository.findById(id);
     }
@@ -173,6 +191,7 @@ public class CambusaController {
      * @return 
      */
     @GetMapping(path = "/posizioni", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(description = "Lista delle posizioni, ricercabile per nome e ordinabile")
     public List<Posizione> getPosizioni(
             @RequestParam(name = "name", required = false) String name,
             @RequestParam(name = "sortby", required = false, defaultValue = "name") String[] sortby,
@@ -196,6 +215,7 @@ public class CambusaController {
      * @return 
      */
     @GetMapping(path = "/posizioni/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(description = "Posizione per Id")
     public Optional<Posizione> getPosizione(@PathVariable("id") UUID id) {
         return posizioneRepository.findById(id);
     }
@@ -208,6 +228,7 @@ public class CambusaController {
      * @return 
      */
     @PutMapping(path = "/posizioni", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(description = "Salva una Posizione (insert o update)")
     public ResponseEntity<Object> putPosizione(@Valid @RequestBody Posizione posizione, BindingResult br) {
         if (br.hasErrors()) {
             return new ResponseEntity<>(formatBindingErrors(br), HttpStatus.BAD_REQUEST);
@@ -224,6 +245,7 @@ public class CambusaController {
      * @return 
      */
     @PutMapping(path = "/tipi", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(description = "Salva un TIpo (insert o update)")
     public ResponseEntity<Object> putTipo(@Valid @RequestBody Tipo tipo, BindingResult br) {
         if (br.hasErrors()) {
             return new ResponseEntity<>(formatBindingErrors(br), HttpStatus.BAD_REQUEST);
@@ -242,6 +264,7 @@ public class CambusaController {
      * @return 
      */
     @PutMapping(path = "/prodotti", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(description = "Salva un Prodotto (insert o update)")
     public ResponseEntity<Object> putProdotto(@Valid @RequestBody Prodotto prodotto, BindingResult br) {
         if (br.hasErrors()) {
             return new ResponseEntity<>(formatBindingErrors(br), HttpStatus.BAD_REQUEST);
@@ -257,6 +280,7 @@ public class CambusaController {
      * @return 
      */
     @DeleteMapping(path = "/posizioni/{id}", produces = MediaType.TEXT_PLAIN_VALUE)
+    @Operation(description = "Elimina una Posizione")
     public ResponseEntity<String> deletePosizione(@PathVariable(name = "id") UUID id) {
         this.posizioneRepository.deleteById(id);
         return new ResponseEntity<>("Cancellazione effettuata", HttpStatus.OK);
@@ -269,6 +293,7 @@ public class CambusaController {
      * @return 
      */
     @DeleteMapping(path = "/tipi/{id}", produces = MediaType.TEXT_PLAIN_VALUE)
+    @Operation(description = "Elimina un Tipo")
     public ResponseEntity<String> deleteTipo(@PathVariable(name = "id") UUID id) {
         this.tipoRepository.deleteById(id);
         return new ResponseEntity<>("Cancellazione effettuata", HttpStatus.OK);
@@ -281,6 +306,7 @@ public class CambusaController {
      * @return 
      */
     @DeleteMapping(path = "/prodotti/{id}", produces = MediaType.TEXT_PLAIN_VALUE)
+    @Operation(description = "Elimina un Prodotto")
     public ResponseEntity<String> deleteProdotto(@PathVariable(name = "id") UUID id) {
         this.prodottoRepository.deleteById(id);
         return new ResponseEntity<>("Cancellazione effettuata", HttpStatus.OK);
@@ -292,22 +318,32 @@ public class CambusaController {
      * @param id
      * @param aperto
      * @param dataApertura Opzionale, altrimenti oggi.
+     * @param quantita
      * @return 
      */
     @PatchMapping(path = "/prodotti/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Prodotto> apriProdotto(@PathVariable("id") UUID id, @RequestParam(name = "aperto") Boolean aperto, @RequestParam(name = "dataApertura", required = false) LocalDate dataApertura) {
+    @Operation(description = "Aggiorna singoli campi di un Prodotto")
+    public ResponseEntity<Object> patchProdotto(
+            @PathVariable("id") UUID id,
+            @RequestParam(name = "aperto", required = false) Boolean aperto,
+            @RequestParam(name = "dataApertura", required = false) LocalDate dataApertura,
+            @RequestParam(name = "quantita", required = false) Integer quantita) {
         Prodotto prodotto = entityManager.find(Prodotto.class, id);
-        if (prodotto.getTipo().getApribile()) {
-            prodotto.setAperto(aperto);
-            if (!aperto) {
-                dataApertura = null;
+        if (!prodotto.getTipo().getApribile() && aperto) {
+            return new ResponseEntity<>(new String[]{"Prodotto non apribile"}, HttpStatus.BAD_REQUEST);
+        } else {
+            if (quantita != null) {
+                prodotto.setQuantita(quantita);
             }
-            // se aperto=true e dataApertura non specificata, viene impostato oggi in fase di persistenza; altrimenti si forza null
-            prodotto.setDataApertura(dataApertura);
+            if (aperto != null) {
+                prodotto.setAperto(aperto);
+            }
+            // la logica di aperto+dataApertura e' gestita dal setter
+            if (dataApertura != null) {
+                prodotto.setDataApertura(dataApertura);
+            }
             prodotto.generaDataScadenza();
             return new ResponseEntity<>(entityManager.merge(prodotto), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(prodotto, HttpStatus.BAD_REQUEST);
         }
     }
     
