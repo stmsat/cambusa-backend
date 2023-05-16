@@ -239,7 +239,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Prodotto'
+                type: object
     delete:
       tags:
       - cambusa-controller
@@ -327,7 +327,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Tipo'
+                type: object
     delete:
       tags:
       - cambusa-controller
@@ -366,7 +366,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Posizione'
+                type: object
     delete:
       tags:
       - cambusa-controller

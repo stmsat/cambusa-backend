@@ -1783,7 +1783,7 @@ public class CambusaControllerApiExample {
         CambusaControllerApi apiInstance = new CambusaControllerApi();
         UUID id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 
         try {
-            Posizione result = apiInstance.getPosizione(id);
+            Object result = apiInstance.getPosizione(id);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling CambusaControllerApi#getPosizione");
@@ -1802,7 +1802,7 @@ public class CambusaControllerApiExample {
         CambusaControllerApi apiInstance = new CambusaControllerApi();
         UUID id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 
         try {
-            Posizione result = apiInstance.getPosizione(id);
+            Object result = apiInstance.getPosizione(id);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling CambusaControllerApi#getPosizione");
@@ -1821,7 +1821,7 @@ public class CambusaControllerApiExample {
 CambusaControllerApi *apiInstance = [[CambusaControllerApi alloc] init];
 
 [apiInstance getPosizioneWith:id
-              completionHandler: ^(Posizione output, NSError* error) {
+              completionHandler: ^(Object output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -1871,7 +1871,7 @@ namespace Example
 
             try
             {
-                Posizione result = apiInstance.getPosizione(id);
+                Object result = apiInstance.getPosizione(id);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -1992,7 +1992,8 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/Posizione"
+        "type" : "object",
+        "x-content-type" : "application/json"
       }
     }
   }
@@ -2922,7 +2923,7 @@ public class CambusaControllerApiExample {
         CambusaControllerApi apiInstance = new CambusaControllerApi();
         UUID id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 
         try {
-            Prodotto result = apiInstance.getProdotto(id);
+            Object result = apiInstance.getProdotto(id);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling CambusaControllerApi#getProdotto");
@@ -2941,7 +2942,7 @@ public class CambusaControllerApiExample {
         CambusaControllerApi apiInstance = new CambusaControllerApi();
         UUID id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 
         try {
-            Prodotto result = apiInstance.getProdotto(id);
+            Object result = apiInstance.getProdotto(id);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling CambusaControllerApi#getProdotto");
@@ -2960,7 +2961,7 @@ public class CambusaControllerApiExample {
 CambusaControllerApi *apiInstance = [[CambusaControllerApi alloc] init];
 
 [apiInstance getProdottoWith:id
-              completionHandler: ^(Prodotto output, NSError* error) {
+              completionHandler: ^(Object output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -3010,7 +3011,7 @@ namespace Example
 
             try
             {
-                Prodotto result = apiInstance.getProdotto(id);
+                Object result = apiInstance.getProdotto(id);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -3131,7 +3132,8 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/Prodotto"
+        "type" : "object",
+        "x-content-type" : "application/json"
       }
     }
   }
@@ -3557,7 +3559,7 @@ public class CambusaControllerApiExample {
         CambusaControllerApi apiInstance = new CambusaControllerApi();
         UUID id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 
         try {
-            Tipo result = apiInstance.getTipo(id);
+            Object result = apiInstance.getTipo(id);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling CambusaControllerApi#getTipo");
@@ -3576,7 +3578,7 @@ public class CambusaControllerApiExample {
         CambusaControllerApi apiInstance = new CambusaControllerApi();
         UUID id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 
         try {
-            Tipo result = apiInstance.getTipo(id);
+            Object result = apiInstance.getTipo(id);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling CambusaControllerApi#getTipo");
@@ -3595,7 +3597,7 @@ public class CambusaControllerApiExample {
 CambusaControllerApi *apiInstance = [[CambusaControllerApi alloc] init];
 
 [apiInstance getTipoWith:id
-              completionHandler: ^(Tipo output, NSError* error) {
+              completionHandler: ^(Object output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -3645,7 +3647,7 @@ namespace Example
 
             try
             {
-                Tipo result = apiInstance.getTipo(id);
+                Object result = apiInstance.getTipo(id);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -3766,7 +3768,8 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/Tipo"
+        "type" : "object",
+        "x-content-type" : "application/json"
       }
     }
   }
