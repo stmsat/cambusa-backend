@@ -841,7 +841,7 @@
         <div id="header">
           <div id="api-_">
             <h2 id="welcome-to-apidoc">API and SDK Documentation</h2>
-              <div class="app-desc">Version: 1.0.0</div>
+              <div class="app-desc">Version: 0.0.3</div>
             <hr>
             <div>Servizio per la tracciatura delle scadenze dei prodotti</div>
           </div>
@@ -3853,7 +3853,7 @@ public class CambusaControllerApiExample {
         date dataApertura = 2013-10-20; // date | 
         Integer quantita = 56; // Integer | 
         try {
-            Prodotto result = apiInstance.patchProdotto(id, aperto, dataApertura, quantita);
+            Object result = apiInstance.patchProdotto(id, aperto, dataApertura, quantita);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling CambusaControllerApi#patchProdotto");
@@ -3875,7 +3875,7 @@ public class CambusaControllerApiExample {
         date dataApertura = 2013-10-20; // date | 
         Integer quantita = 56; // Integer | 
         try {
-            Prodotto result = apiInstance.patchProdotto(id, aperto, dataApertura, quantita);
+            Object result = apiInstance.patchProdotto(id, aperto, dataApertura, quantita);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling CambusaControllerApi#patchProdotto");
@@ -3900,7 +3900,7 @@ CambusaControllerApi *apiInstance = [[CambusaControllerApi alloc] init];
     aperto:aperto
     dataApertura:dataApertura
     quantita:quantita
-              completionHandler: ^(Prodotto output, NSError* error) {
+              completionHandler: ^(Object output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -3957,7 +3957,7 @@ namespace Example
 
             try
             {
-                Prodotto result = apiInstance.patchProdotto(id, aperto, dataApertura, quantita);
+                Object result = apiInstance.patchProdotto(id, aperto, dataApertura, quantita);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -4148,7 +4148,8 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/Prodotto"
+        "type" : "object",
+        "x-content-type" : "application/json"
       }
     }
   }

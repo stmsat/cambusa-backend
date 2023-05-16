@@ -54,7 +54,8 @@ import stmsat.cambusa.repository.PosizioneRepository;
                 contact = @Contact(
                         name = "/stmsat/cambusa-backend",
                         url = "https://github.com/stmsat/cambusa-backend"
-                )
+                ),
+                version = "0.0.3"
         )
 )
 @Transactional

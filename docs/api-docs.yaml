@@ -5,6 +5,7 @@ info:
   contact:
     name: /stmsat/cambusa-backend
     url: https://github.com/stmsat/cambusa-backend
+  version: 0.0.3
 servers:
 - url: http://127.0.0.1:8080
   description: Generated server url
@@ -293,7 +294,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Prodotto'
+                type: object
   /cambusaDevel/init:
     get:
       tags:
