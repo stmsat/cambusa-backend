@@ -141,8 +141,13 @@ public class CambusaController {
      */
     @GetMapping(path = "/prodotti/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(description = "Prodotto per Id")
-    public Optional<Prodotto> getProdotto(@PathVariable("id") UUID id) {
-        return prodottoRepository.findById(id);
+    public ResponseEntity<Object> getProdotto(@PathVariable("id") UUID id) {
+        Optional<Prodotto> prodotto = prodottoRepository.findById(id);
+        if (prodotto.isEmpty()) {
+            return new ResponseEntity<>("Prodotto non trovato", HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(prodotto.get(), HttpStatus.OK);
+        }
     }
     
     /**
@@ -179,8 +184,13 @@ public class CambusaController {
      */
     @GetMapping(path = "/tipi/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(description = "Tipo per Id")
-    public Optional<Tipo> getTipo(@PathVariable("id") UUID id) {
-        return tipoRepository.findById(id);
+    public ResponseEntity<Object> getTipo(@PathVariable("id") UUID id) {
+        Optional<Tipo> tipo = tipoRepository.findById(id);
+        if (tipo.isEmpty()) {
+            return new ResponseEntity<>("Tipo non trovato", HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(tipo.get(), HttpStatus.OK);
+        }
     }
     
     /**
@@ -217,8 +227,13 @@ public class CambusaController {
      */
     @GetMapping(path = "/posizioni/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(description = "Posizione per Id")
-    public Optional<Posizione> getPosizione(@PathVariable("id") UUID id) {
-        return posizioneRepository.findById(id);
+    public ResponseEntity<Object> getPosizione(@PathVariable("id") UUID id) {
+        Optional<Posizione> posizione = posizioneRepository.findById(id);
+        if (posizione.isEmpty()) {
+            return new ResponseEntity<>("Posizione non trovata", HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(posizione.get(), HttpStatus.OK);
+        }
     }
     
     /**
