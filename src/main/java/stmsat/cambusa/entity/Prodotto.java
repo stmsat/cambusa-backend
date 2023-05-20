@@ -33,8 +33,8 @@ public class Prodotto extends BaseEntity {
         this.dataScadenza = Objects.requireNonNull(dataScadenza, "Specificare dataScadenza");
         this.tipo = Objects.requireNonNull(tipo, "Specificare tipo");
         this.posizione = posizione;
-        this.dataApertura = dataApertura;
         this.aperto = aperto;
+        this.dataApertura = dataApertura;
         this.quantita = quantita;
         this.setDefaultValues();
     }
@@ -53,25 +53,11 @@ public class Prodotto extends BaseEntity {
     @ManyToOne
     private Posizione posizione;
     
-    private LocalDate dataApertura;
-    
-    /**
-     * Imposta dataApertura solo se il prodotto e' aperto.
-     * 
-     * @param dataApertura 
-     */
-    public void setDataApertura(LocalDate dataApertura) {
-        if (this.getAperto()) {
-            if (dataApertura != null) {
-                this.dataApertura = dataApertura;
-            }
-        } else {
-            this.dataApertura = null;
-        }
-    }
-    
     @Setter
     private Boolean aperto;
+    
+    @Setter
+    private LocalDate dataApertura;
     
     @Min(value = 1, message = "Impostare almeno 1 come quantita")
     @Setter
@@ -104,12 +90,12 @@ public class Prodotto extends BaseEntity {
     }
     
     /**
-     * Imposta valori predefiniti per i campi che possono avere un default.
+     * Imposta valori predefiniti per i campi che possono avere un default, e verifica l'integrit&agrave; dei dati.
      */
     @PrePersist
     @PreUpdate
     public final void setDefaultValues() {
-        if (this.aperto == null) {
+        if (this.aperto == null || (this.aperto && !this.tipo.getApribile())) {
             this.aperto = false;
         }
         if (this.aperto && this.dataApertura == null) {
