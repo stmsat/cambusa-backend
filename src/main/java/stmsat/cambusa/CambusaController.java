@@ -358,6 +358,7 @@ public class CambusaController {
             if (dataApertura != null) {
                 prodotto.setDataApertura(dataApertura);
             }
+            prodotto.setDefaultValues();
             prodotto.generaDataScadenza();
             return new ResponseEntity<>(entityManager.merge(prodotto), HttpStatus.OK);
         }
