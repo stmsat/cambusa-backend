@@ -161,16 +161,16 @@ public class CambusaController {
     @GetMapping(path = "/prodotti/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(description = "Prodotto per Id")
     @ApiResponses({
-            @ApiResponse(responseCode = "200"),
-            @ApiResponse(responseCode = "404", description = "Prodotto non trovato", content = {@Content(schema = @Schema(implementation = Void.class))})
+        @ApiResponse(responseCode = "200"),
+        @ApiResponse(responseCode = "404", description = "Prodotto non trovato", content = {
+            @Content(schema = @Schema(implementation = Void.class))})
     })
     public Prodotto getProdotto(@PathVariable("id") UUID id) {
         Optional<Prodotto> prodotto = prodottoRepository.findById(id);
         if (prodotto.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Prodotto non trovato");
-        } else {
-            return prodotto.get();
         }
+        return prodotto.get();
     }
 
     /**
@@ -210,16 +210,16 @@ public class CambusaController {
     @GetMapping(path = "/tipi/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(description = "Tipo per Id")
     @ApiResponses({
-            @ApiResponse(responseCode = "200"),
-            @ApiResponse(responseCode = "404", description = "Tipo non trovato", content = {@Content(schema = @Schema(implementation = Void.class))})
+        @ApiResponse(responseCode = "200"),
+        @ApiResponse(responseCode = "404", description = "Tipo non trovato", content = {
+            @Content(schema = @Schema(implementation = Void.class))})
     })
     public Tipo getTipo(@PathVariable("id") UUID id) {
         Optional<Tipo> tipo = tipoRepository.findById(id);
         if (tipo.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tipo non trovato");
-        } else {
-            return tipo.get();
         }
+        return tipo.get();
     }
 
     /**
@@ -259,16 +259,16 @@ public class CambusaController {
     @GetMapping(path = "/posizioni/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(description = "Posizione per Id")
     @ApiResponses({
-            @ApiResponse(responseCode = "200"),
-            @ApiResponse(responseCode = "404", description = "Posizione non trovata", content = {@Content(schema = @Schema(implementation = Void.class))})
+        @ApiResponse(responseCode = "200"),
+        @ApiResponse(responseCode = "404", description = "Posizione non trovata", content = {
+            @Content(schema = @Schema(implementation = Void.class))})
     })
     public Posizione getPosizione(@PathVariable("id") UUID id) {
         Optional<Posizione> posizione = posizioneRepository.findById(id);
         if (posizione.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Posizione non trovata");
-        } else {
-            return posizione.get();
         }
+        return posizione.get();
     }
 
     /**
@@ -281,15 +281,15 @@ public class CambusaController {
     @PutMapping(path = "/posizioni", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(description = "Salva una Posizione (insert o update)")
     @ApiResponses({
-            @ApiResponse(responseCode = "200"),
-            @ApiResponse(responseCode = "400", description = "Oggetto formalmente errato", content = {@Content(schema = @Schema(implementation = Void.class))})
+        @ApiResponse(responseCode = "200"),
+        @ApiResponse(responseCode = "400", description = "Oggetto formalmente errato", content = {
+            @Content(schema = @Schema(implementation = Void.class))})
     })
     public Posizione putPosizione(@Valid @RequestBody Posizione posizione, BindingResult br) {
         if (br.hasErrors()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, formatBindingErrors(br));
-        } else {
-            return posizioneRepository.save(posizione);
         }
+        return posizioneRepository.save(posizione);
     }
 
     /**
@@ -302,17 +302,17 @@ public class CambusaController {
     @PutMapping(path = "/tipi", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(description = "Salva un Tipo (insert o update)")
     @ApiResponses({
-            @ApiResponse(responseCode = "200"),
-            @ApiResponse(responseCode = "400", description = "Oggetto formalmente errato", content = {@Content(schema = @Schema(implementation = Void.class))})
+        @ApiResponse(responseCode = "200"),
+        @ApiResponse(responseCode = "400", description = "Oggetto formalmente errato", content = {
+            @Content(schema = @Schema(implementation = Void.class))})
     })
     public Tipo putTipo(@Valid @RequestBody Tipo tipo, BindingResult br) {
         if (br.hasErrors()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, formatBindingErrors(br));
-        } else {
-            tipo = tipoRepository.save(tipo);
-            this.cambusaService.ricalcolaDataScadenzaProdotti(tipo);
-            return tipo;
         }
+        tipo = tipoRepository.save(tipo);
+        this.cambusaService.ricalcolaDataScadenzaProdotti(tipo);
+        return tipo;
     }
 
     /**
@@ -325,15 +325,15 @@ public class CambusaController {
     @PutMapping(path = "/prodotti", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(description = "Salva un Prodotto (insert o update)")
     @ApiResponses({
-            @ApiResponse(responseCode = "200"),
-            @ApiResponse(responseCode = "400", description = "Oggetto formalmente errato", content = {@Content(schema = @Schema(implementation = Void.class))})
+        @ApiResponse(responseCode = "200"),
+        @ApiResponse(responseCode = "400", description = "Oggetto formalmente errato", content = {
+            @Content(schema = @Schema(implementation = Void.class))})
     })
     public Prodotto putProdotto(@Valid @RequestBody Prodotto prodotto, BindingResult br) {
         if (br.hasErrors()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, formatBindingErrors(br));
-        } else {
-            return prodottoRepository.save(prodotto);
         }
+        return prodottoRepository.save(prodotto);
     }
 
     /**
@@ -345,8 +345,8 @@ public class CambusaController {
     @DeleteMapping(path = "/posizioni/{id}", produces = MediaType.TEXT_PLAIN_VALUE)
     @Operation(description = "Elimina una Posizione")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Cancellazione effettuata"),
-            @ApiResponse(responseCode = "409", description = "Operazione non completabile per violazione integrita' dei dati")
+        @ApiResponse(responseCode = "200", description = "Cancellazione effettuata"),
+        @ApiResponse(responseCode = "409", description = "Operazione non completabile per violazione integrita' dei dati")
     })
     public String deletePosizione(@PathVariable(name = "id") UUID id) {
         this.posizioneRepository.deleteById(id);
@@ -362,8 +362,8 @@ public class CambusaController {
     @DeleteMapping(path = "/tipi/{id}", produces = MediaType.TEXT_PLAIN_VALUE)
     @Operation(description = "Elimina un Tipo")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Cancellazione effettuata"),
-            @ApiResponse(responseCode = "409", description = "Operazione non completabile per violazione integrita' dei dati")
+        @ApiResponse(responseCode = "200", description = "Cancellazione effettuata"),
+        @ApiResponse(responseCode = "409", description = "Operazione non completabile per violazione integrita' dei dati")
     })
     public String deleteTipo(@PathVariable(name = "id") UUID id) {
         this.tipoRepository.deleteById(id);
@@ -379,8 +379,8 @@ public class CambusaController {
     @DeleteMapping(path = "/prodotti/{id}", produces = MediaType.TEXT_PLAIN_VALUE)
     @Operation(description = "Elimina un Prodotto")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Cancellazione effettuata"),
-            @ApiResponse(responseCode = "409", description = "Operazione non completabile per violazione integrita' dei dati")
+        @ApiResponse(responseCode = "200", description = "Cancellazione effettuata"),
+        @ApiResponse(responseCode = "409", description = "Operazione non completabile per violazione integrita' dei dati")
     })
     public String deleteProdotto(@PathVariable(name = "id") UUID id) {
         this.prodottoRepository.deleteById(id);
@@ -400,8 +400,8 @@ public class CambusaController {
     @PatchMapping(path = "/prodotti/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(description = "Aggiorna singoli campi di un Prodotto")
     @ApiResponses({
-            @ApiResponse(responseCode = "200"),
-            @ApiResponse(responseCode = "400", description = "Valori non ammessi")
+        @ApiResponse(responseCode = "200"),
+        @ApiResponse(responseCode = "400", description = "Valori non ammessi")
     })
     public Prodotto patchProdotto(
             @PathVariable("id") UUID id,
@@ -411,21 +411,19 @@ public class CambusaController {
         Prodotto prodotto = entityManager.find(Prodotto.class, id);
         if (!prodotto.getTipo().getApribile() && aperto) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Prodotto non apribile");
-        } else {
-            if (quantita != null) {
-                prodotto.setQuantita(quantita);
-            }
-            if (aperto != null) {
-                prodotto.setAperto(aperto);
-            }
-            // la logica di aperto+dataApertura e' gestita dal setter
-            if (dataApertura != null) {
-                prodotto.setDataApertura(dataApertura);
-            }
-            prodotto.setDefaultValues();
-            prodotto.generaDataScadenza();
-            return entityManager.merge(prodotto);
         }
+        if (quantita != null) {
+            prodotto.setQuantita(quantita);
+        }
+        if (aperto != null) {
+            prodotto.setAperto(aperto);
+        }
+        // la logica di aperto+dataApertura e' gestita dal setter
+        if (dataApertura != null) {
+            prodotto.setDataApertura(dataApertura);
+        }
+        prodotto.setDefaultValues();
+        return entityManager.merge(prodotto);
     }
 
     /**
@@ -474,7 +472,7 @@ public class CambusaController {
      * Errore di violazione vincoli dati.
      *
      * @param e
-     * @return 
+     * @return
      */
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<String> dataIntegrityViolation(DataIntegrityViolationException e) {
