@@ -21,7 +21,6 @@ import lombok.Setter;
  */
 @Entity
 @Getter
-
 public class Prodotto extends BaseEntity {
     
     /**
