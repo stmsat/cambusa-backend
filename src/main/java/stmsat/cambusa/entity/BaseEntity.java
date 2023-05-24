@@ -17,7 +17,7 @@ import lombok.Getter;
 @Entity
 @Getter
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
-public class BaseEntity {
+public abstract class BaseEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

@@ -2,13 +2,13 @@
 package stmsat.cambusa.repository;
 
 import java.util.UUID;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import stmsat.cambusa.entity.Posizione;
 
 /**
  *
  * @author Matteo Steccolini
  */
-public interface PosizioneRepository extends JpaRepository<Posizione, UUID>{
+public interface PosizioneRepository extends CrudRepository<Posizione, UUID>{
     
 }
