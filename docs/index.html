@@ -723,12 +723,12 @@
     "posizione" : {
       "$ref" : "#/components/schemas/Posizione"
     },
+    "aperto" : {
+      "type" : "boolean"
+    },
     "dataApertura" : {
       "type" : "string",
       "format" : "date"
-    },
-    "aperto" : {
-      "type" : "boolean"
     },
     "quantita" : {
       "minimum" : 1,
@@ -841,7 +841,7 @@
         <div id="header">
           <div id="api-_">
             <h2 id="welcome-to-apidoc">API and SDK Documentation</h2>
-              <div class="app-desc">Version: 0.0.3</div>
+              <div class="app-desc">Version: 0.0.4</div>
             <hr>
             <div>Servizio per la tracciatura delle scadenze dei prodotti</div>
           </div>
@@ -1091,7 +1091,7 @@ except ApiException as e:
 
 
                           <h2>Responses</h2>
-                            <h3> Status: 200 - OK </h3>
+                            <h3> Status: 200 - Cancellazione effettuata </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
@@ -1106,7 +1106,7 @@ except ApiException as e:
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
-  "description" : "OK",
+  "description" : "Cancellazione effettuata",
   "content" : {
     "text/plain" : {
       "schema" : {
@@ -1137,6 +1137,55 @@ except ApiException as e:
                                     </script>
                                   </div>
                                   <input id='responses-deletePosizione-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 409 - Operazione non completabile per violazione integrita&#x27; dei dati </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-deletePosizione-409-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-deletePosizione-409-schema">
+                                  <div id='responses-deletePosizione-409-schema-409' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Operazione non completabile per violazione integrita' dei dati",
+  "content" : {
+    "text/plain" : {
+      "schema" : {
+        "type" : "string",
+        "x-content-type" : "text/plain"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["text/plain"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-deletePosizione-409-schema-data').val(stringify(schema));
+                                        var result = $('#responses-deletePosizione-409-schema-409');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-deletePosizione-409-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -1385,7 +1434,7 @@ except ApiException as e:
 
 
                           <h2>Responses</h2>
-                            <h3> Status: 200 - OK </h3>
+                            <h3> Status: 200 - Cancellazione effettuata </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
@@ -1400,7 +1449,7 @@ except ApiException as e:
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
-  "description" : "OK",
+  "description" : "Cancellazione effettuata",
   "content" : {
     "text/plain" : {
       "schema" : {
@@ -1431,6 +1480,55 @@ except ApiException as e:
                                     </script>
                                   </div>
                                   <input id='responses-deleteProdotto-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 409 - Operazione non completabile per violazione integrita&#x27; dei dati </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-deleteProdotto-409-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-deleteProdotto-409-schema">
+                                  <div id='responses-deleteProdotto-409-schema-409' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Operazione non completabile per violazione integrita' dei dati",
+  "content" : {
+    "text/plain" : {
+      "schema" : {
+        "type" : "string",
+        "x-content-type" : "text/plain"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["text/plain"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-deleteProdotto-409-schema-data').val(stringify(schema));
+                                        var result = $('#responses-deleteProdotto-409-schema-409');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-deleteProdotto-409-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -1679,7 +1777,7 @@ except ApiException as e:
 
 
                           <h2>Responses</h2>
-                            <h3> Status: 200 - OK </h3>
+                            <h3> Status: 200 - Cancellazione effettuata </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
@@ -1694,7 +1792,7 @@ except ApiException as e:
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
-  "description" : "OK",
+  "description" : "Cancellazione effettuata",
   "content" : {
     "text/plain" : {
       "schema" : {
@@ -1725,6 +1823,55 @@ except ApiException as e:
                                     </script>
                                   </div>
                                   <input id='responses-deleteTipo-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 409 - Operazione non completabile per violazione integrita&#x27; dei dati </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-deleteTipo-409-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-deleteTipo-409-schema">
+                                  <div id='responses-deleteTipo-409-schema-409' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Operazione non completabile per violazione integrita' dei dati",
+  "content" : {
+    "text/plain" : {
+      "schema" : {
+        "type" : "string",
+        "x-content-type" : "text/plain"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["text/plain"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-deleteTipo-409-schema-data').val(stringify(schema));
+                                        var result = $('#responses-deleteTipo-409-schema-409');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-deleteTipo-409-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -1783,7 +1930,7 @@ public class CambusaControllerApiExample {
         CambusaControllerApi apiInstance = new CambusaControllerApi();
         UUID id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 
         try {
-            Object result = apiInstance.getPosizione(id);
+            Posizione result = apiInstance.getPosizione(id);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling CambusaControllerApi#getPosizione");
@@ -1802,7 +1949,7 @@ public class CambusaControllerApiExample {
         CambusaControllerApi apiInstance = new CambusaControllerApi();
         UUID id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 
         try {
-            Object result = apiInstance.getPosizione(id);
+            Posizione result = apiInstance.getPosizione(id);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling CambusaControllerApi#getPosizione");
@@ -1821,7 +1968,7 @@ public class CambusaControllerApiExample {
 CambusaControllerApi *apiInstance = [[CambusaControllerApi alloc] init];
 
 [apiInstance getPosizioneWith:id
-              completionHandler: ^(Object output, NSError* error) {
+              completionHandler: ^(Posizione output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -1871,7 +2018,7 @@ namespace Example
 
             try
             {
-                Object result = apiInstance.getPosizione(id);
+                Posizione result = apiInstance.getPosizione(id);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -1973,6 +2120,14 @@ except ApiException as e:
 
 
                           <h2>Responses</h2>
+                            <h3> Status: 404 - Posizione non trovata </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
                             <h3> Status: 200 - OK </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
@@ -1992,8 +2147,7 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "type" : "object",
-        "x-content-type" : "application/json"
+        "$ref" : "#/components/schemas/Posizione"
       }
     }
   }
@@ -2923,7 +3077,7 @@ public class CambusaControllerApiExample {
         CambusaControllerApi apiInstance = new CambusaControllerApi();
         UUID id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 
         try {
-            Object result = apiInstance.getProdotto(id);
+            Prodotto result = apiInstance.getProdotto(id);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling CambusaControllerApi#getProdotto");
@@ -2942,7 +3096,7 @@ public class CambusaControllerApiExample {
         CambusaControllerApi apiInstance = new CambusaControllerApi();
         UUID id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 
         try {
-            Object result = apiInstance.getProdotto(id);
+            Prodotto result = apiInstance.getProdotto(id);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling CambusaControllerApi#getProdotto");
@@ -2961,7 +3115,7 @@ public class CambusaControllerApiExample {
 CambusaControllerApi *apiInstance = [[CambusaControllerApi alloc] init];
 
 [apiInstance getProdottoWith:id
-              completionHandler: ^(Object output, NSError* error) {
+              completionHandler: ^(Prodotto output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -3011,7 +3165,7 @@ namespace Example
 
             try
             {
-                Object result = apiInstance.getProdotto(id);
+                Prodotto result = apiInstance.getProdotto(id);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -3132,8 +3286,7 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "type" : "object",
-        "x-content-type" : "application/json"
+        "$ref" : "#/components/schemas/Prodotto"
       }
     }
   }
@@ -3160,6 +3313,14 @@ except ApiException as e:
                                   </div>
                                   <input id='responses-getProdotto-200-schema-data' type='hidden' value=''></input>
                                 </div>
+                            </div>
+
+                            <h3> Status: 404 - Prodotto non trovato </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
                         </article>
@@ -3559,7 +3720,7 @@ public class CambusaControllerApiExample {
         CambusaControllerApi apiInstance = new CambusaControllerApi();
         UUID id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 
         try {
-            Object result = apiInstance.getTipo(id);
+            Tipo result = apiInstance.getTipo(id);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling CambusaControllerApi#getTipo");
@@ -3578,7 +3739,7 @@ public class CambusaControllerApiExample {
         CambusaControllerApi apiInstance = new CambusaControllerApi();
         UUID id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 
         try {
-            Object result = apiInstance.getTipo(id);
+            Tipo result = apiInstance.getTipo(id);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling CambusaControllerApi#getTipo");
@@ -3597,7 +3758,7 @@ public class CambusaControllerApiExample {
 CambusaControllerApi *apiInstance = [[CambusaControllerApi alloc] init];
 
 [apiInstance getTipoWith:id
-              completionHandler: ^(Object output, NSError* error) {
+              completionHandler: ^(Tipo output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -3647,7 +3808,7 @@ namespace Example
 
             try
             {
-                Object result = apiInstance.getTipo(id);
+                Tipo result = apiInstance.getTipo(id);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -3768,8 +3929,7 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "type" : "object",
-        "x-content-type" : "application/json"
+        "$ref" : "#/components/schemas/Tipo"
       }
     }
   }
@@ -3796,6 +3956,14 @@ except ApiException as e:
                                   </div>
                                   <input id='responses-getTipo-200-schema-data' type='hidden' value=''></input>
                                 </div>
+                            </div>
+
+                            <h3> Status: 404 - Tipo non trovato </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
                         </article>
@@ -3856,7 +4024,7 @@ public class CambusaControllerApiExample {
         date dataApertura = 2013-10-20; // date | 
         Integer quantita = 56; // Integer | 
         try {
-            Object result = apiInstance.patchProdotto(id, aperto, dataApertura, quantita);
+            Prodotto result = apiInstance.patchProdotto(id, aperto, dataApertura, quantita);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling CambusaControllerApi#patchProdotto");
@@ -3878,7 +4046,7 @@ public class CambusaControllerApiExample {
         date dataApertura = 2013-10-20; // date | 
         Integer quantita = 56; // Integer | 
         try {
-            Object result = apiInstance.patchProdotto(id, aperto, dataApertura, quantita);
+            Prodotto result = apiInstance.patchProdotto(id, aperto, dataApertura, quantita);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling CambusaControllerApi#patchProdotto");
@@ -3903,7 +4071,7 @@ CambusaControllerApi *apiInstance = [[CambusaControllerApi alloc] init];
     aperto:aperto
     dataApertura:dataApertura
     quantita:quantita
-              completionHandler: ^(Object output, NSError* error) {
+              completionHandler: ^(Prodotto output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -3960,7 +4128,7 @@ namespace Example
 
             try
             {
-                Object result = apiInstance.patchProdotto(id, aperto, dataApertura, quantita);
+                Prodotto result = apiInstance.patchProdotto(id, aperto, dataApertura, quantita);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -4151,8 +4319,7 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "type" : "object",
-        "x-content-type" : "application/json"
+        "$ref" : "#/components/schemas/Prodotto"
       }
     }
   }
@@ -4178,6 +4345,54 @@ except ApiException as e:
                                     </script>
                                   </div>
                                   <input id='responses-patchProdotto-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 400 - Valori non ammessi </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-patchProdotto-400-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-patchProdotto-400-schema">
+                                  <div id='responses-patchProdotto-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Valori non ammessi",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Prodotto"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-patchProdotto-400-schema-data').val(stringify(schema));
+                                        var result = $('#responses-patchProdotto-400-schema-400');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-patchProdotto-400-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -4237,7 +4452,7 @@ public class CambusaControllerApiExample {
         CambusaControllerApi apiInstance = new CambusaControllerApi();
         Posizione body = ; // Posizione | 
         try {
-            Object result = apiInstance.putPosizione(body);
+            Posizione result = apiInstance.putPosizione(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling CambusaControllerApi#putPosizione");
@@ -4256,7 +4471,7 @@ public class CambusaControllerApiExample {
         CambusaControllerApi apiInstance = new CambusaControllerApi();
         Posizione body = ; // Posizione | 
         try {
-            Object result = apiInstance.putPosizione(body);
+            Posizione result = apiInstance.putPosizione(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling CambusaControllerApi#putPosizione");
@@ -4275,7 +4490,7 @@ public class CambusaControllerApiExample {
 CambusaControllerApi *apiInstance = [[CambusaControllerApi alloc] init];
 
 [apiInstance putPosizioneWith:body
-              completionHandler: ^(Object output, NSError* error) {
+              completionHandler: ^(Posizione output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -4325,7 +4540,7 @@ namespace Example
 
             try
             {
-                Object result = apiInstance.putPosizione(body);
+                Posizione result = apiInstance.putPosizione(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -4460,8 +4675,7 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "type" : "object",
-        "x-content-type" : "application/json"
+        "$ref" : "#/components/schemas/Posizione"
       }
     }
   }
@@ -4488,6 +4702,14 @@ except ApiException as e:
                                   </div>
                                   <input id='responses-putPosizione-200-schema-data' type='hidden' value=''></input>
                                 </div>
+                            </div>
+
+                            <h3> Status: 400 - Oggetto formalmente errato </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
                         </article>
@@ -4546,7 +4768,7 @@ public class CambusaControllerApiExample {
         CambusaControllerApi apiInstance = new CambusaControllerApi();
         Prodotto body = ; // Prodotto | 
         try {
-            Object result = apiInstance.putProdotto(body);
+            Prodotto result = apiInstance.putProdotto(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling CambusaControllerApi#putProdotto");
@@ -4565,7 +4787,7 @@ public class CambusaControllerApiExample {
         CambusaControllerApi apiInstance = new CambusaControllerApi();
         Prodotto body = ; // Prodotto | 
         try {
-            Object result = apiInstance.putProdotto(body);
+            Prodotto result = apiInstance.putProdotto(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling CambusaControllerApi#putProdotto");
@@ -4584,7 +4806,7 @@ public class CambusaControllerApiExample {
 CambusaControllerApi *apiInstance = [[CambusaControllerApi alloc] init];
 
 [apiInstance putProdottoWith:body
-              completionHandler: ^(Object output, NSError* error) {
+              completionHandler: ^(Prodotto output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -4634,7 +4856,7 @@ namespace Example
 
             try
             {
-                Object result = apiInstance.putProdotto(body);
+                Prodotto result = apiInstance.putProdotto(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -4769,8 +4991,7 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "type" : "object",
-        "x-content-type" : "application/json"
+        "$ref" : "#/components/schemas/Prodotto"
       }
     }
   }
@@ -4799,6 +5020,14 @@ except ApiException as e:
                                 </div>
                             </div>
 
+                            <h3> Status: 400 - Oggetto formalmente errato </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
                         </article>
                       </div>
                       <hr>
@@ -4811,7 +5040,7 @@ except ApiException as e:
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">Salva un TIpo (insert o update)</p>
+                        <p class="marked">Salva un Tipo (insert o update)</p>
                         <p></p>
                         <br />
                         <pre class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">/cambusa/tipi</span></code></pre>
@@ -4855,7 +5084,7 @@ public class CambusaControllerApiExample {
         CambusaControllerApi apiInstance = new CambusaControllerApi();
         Tipo body = ; // Tipo | 
         try {
-            Object result = apiInstance.putTipo(body);
+            Tipo result = apiInstance.putTipo(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling CambusaControllerApi#putTipo");
@@ -4874,7 +5103,7 @@ public class CambusaControllerApiExample {
         CambusaControllerApi apiInstance = new CambusaControllerApi();
         Tipo body = ; // Tipo | 
         try {
-            Object result = apiInstance.putTipo(body);
+            Tipo result = apiInstance.putTipo(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling CambusaControllerApi#putTipo");
@@ -4893,7 +5122,7 @@ public class CambusaControllerApiExample {
 CambusaControllerApi *apiInstance = [[CambusaControllerApi alloc] init];
 
 [apiInstance putTipoWith:body
-              completionHandler: ^(Object output, NSError* error) {
+              completionHandler: ^(Tipo output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -4943,7 +5172,7 @@ namespace Example
 
             try
             {
-                Object result = apiInstance.putTipo(body);
+                Tipo result = apiInstance.putTipo(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -5078,8 +5307,7 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "type" : "object",
-        "x-content-type" : "application/json"
+        "$ref" : "#/components/schemas/Tipo"
       }
     }
   }
@@ -5106,6 +5334,14 @@ except ApiException as e:
                                   </div>
                                   <input id='responses-putTipo-200-schema-data' type='hidden' value=''></input>
                                 </div>
+                            </div>
+
+                            <h3> Status: 400 - Oggetto formalmente errato </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
                         </article>
@@ -5147,7 +5383,7 @@ except ApiException as e:
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-CambusaControllerDevel-init-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
--H "Accept: application/json"\
+-H "Accept: text/plain"\
 "http://127.0.0.1:8080/cambusaDevel/init"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-CambusaControllerDevel-init-0-java">
@@ -5335,15 +5571,15 @@ except ApiException as e:
                                         var schemaWrapper = {
   "description" : "OK",
   "content" : {
-    "application/json" : {
+    "text/plain" : {
       "schema" : {
         "type" : "string",
-        "x-content-type" : "application/json"
+        "x-content-type" : "text/plain"
       }
     }
   }
 };
-                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        var schema = schemaWrapper.content["text/plain"].schema;
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
                                         } else {
@@ -5375,11 +5611,11 @@ except ApiException as e:
           <div id="footer">
             <div id="api-_footer">
               <p>Suggestions, contact, support and error reporting;
-                  <div class="app-desc">Information URL: <a href="https://github.com/stmsat/cambusa-backend">https://github.com/stmsat/cambusa-backend</a></div>
-                  <div class="app-desc">Contact Info: <a href="hello@helloreverb.com">hello@helloreverb.com</a></div>
+                  <div class="app-desc">Information URL: <a href="https://github.com/stmsat">https://github.com/stmsat</a></div>
+                  <div class="app-desc">Contact Info: <a href="stmsat@gmail.com">stmsat@gmail.com</a></div>
               </p>
-                <div class="license-info">All rights reserved</div>
-                <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
+                <div class="license-info">BSD-3-Clause</div>
+                <div class="license-url">https://opensource.org/license/bsd-3-clause/</div>
             </div>
           </div>
       </div>

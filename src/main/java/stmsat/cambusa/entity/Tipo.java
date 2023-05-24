@@ -16,10 +16,10 @@ import lombok.Setter;
  */
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 public class Tipo extends BaseEntity {
 
-    @Setter
     @NotEmpty(message = "Indicare un nome per il tipo di prodotto")
     private String name;
 
@@ -31,7 +31,7 @@ public class Tipo extends BaseEntity {
     private Boolean apribile;
 
     private Integer giorniValiditaDopoApertura;
-    
+
     public Tipo(String name, Boolean dataScadenzaPreferibile, Integer giorniValiditaDopoScadenza, Boolean apribile, Integer giornivaliditaDopoApertura) {
         this.name = name;
         this.dataScadenzaPreferibile = dataScadenzaPreferibile;

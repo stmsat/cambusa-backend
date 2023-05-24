@@ -35,3 +35,4 @@ build/
 #local
 /nbactions.xml
 /internaldb.*.db
+nb-configuration.xml

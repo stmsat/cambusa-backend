@@ -5,8 +5,6 @@ import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,9 +35,9 @@ public class CambusaControllerDevel {
     @Autowired
     private PosizioneRepository posizioneRepository;
     
-    @GetMapping(path = "/init", produces = "application/json")
+    @GetMapping(path = "/init", produces = "text/plain")
     @Operation(description = "Inizializza il dataset di test")
-    public ResponseEntity<String> init() {
+    public String init() {
         prodottoRepository.deleteAll();
         tipoProdottoRepository.deleteAll();
         posizioneRepository.deleteAll();
@@ -61,6 +59,6 @@ public class CambusaControllerDevel {
         prodottoRepository.save(new Prodotto("rosetta", LocalDate.now().plusDays(1), pane_precotto, scaffali_dispensa, null, false,1));
         prodottoRepository.save(new Prodotto("pane non lievitato", LocalDate.now().plusDays(1), pane_azzimo, null, null, false,1));
         
-        return new ResponseEntity<>(messaggio, HttpStatus.CREATED);
+        return messaggio;
     }
 }

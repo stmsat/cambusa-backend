@@ -1,5 +1,7 @@
 package stmsat.cambusa.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
@@ -62,6 +64,10 @@ public class Prodotto extends BaseEntity {
     @Setter
     private Integer quantita;
     
+    /**
+     * La propriet&agrave; non deve essere scrivibile ma solo generata.
+     */
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDate dataScadenzaGenerata;
     
     /**
@@ -106,6 +112,7 @@ public class Prodotto extends BaseEntity {
         if (this.quantita == null) {
             this.quantita = 1;
         }
+        //dovrebbe essere null solo in fase di primo salvataggio
         if (this.dataScadenzaGenerata == null) {
             this.generaDataScadenza();
         }

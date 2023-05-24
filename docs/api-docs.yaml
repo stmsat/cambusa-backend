@@ -3,9 +3,13 @@ info:
   title: cambusa-controller
   description: Servizio per la tracciatura delle scadenze dei prodotti
   contact:
-    name: /stmsat/cambusa-backend
-    url: https://github.com/stmsat/cambusa-backend
-  version: 0.0.3
+    name: Matteo Steccolini
+    url: https://github.com/stmsat
+    email: stmsat@gmail.com
+  license:
+    name: BSD-3-Clause
+    url: https://opensource.org/license/bsd-3-clause/
+  version: 0.0.4
 servers:
 - url: http://127.0.0.1:8080
   description: Generated server url
@@ -52,7 +56,7 @@ paths:
     put:
       tags:
       - cambusa-controller
-      description: Salva un TIpo (insert o update)
+      description: Salva un Tipo (insert o update)
       operationId: putTipo
       requestBody:
         content:
@@ -66,7 +70,9 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/Tipo'
+        "400":
+          description: Oggetto formalmente errato
   /cambusa/prodotti:
     get:
       tags:
@@ -162,7 +168,9 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/Prodotto'
+        "400":
+          description: Oggetto formalmente errato
   /cambusa/posizioni:
     get:
       tags:
@@ -219,7 +227,9 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/Posizione'
+        "400":
+          description: Oggetto formalmente errato
   /cambusa/prodotti/{id}:
     get:
       tags:
@@ -239,7 +249,9 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/Prodotto'
+        "404":
+          description: Prodotto non trovato
     delete:
       tags:
       - cambusa-controller
@@ -254,7 +266,13 @@ paths:
           format: uuid
       responses:
         "200":
-          description: OK
+          description: Cancellazione effettuata
+          content:
+            text/plain:
+              schema:
+                type: string
+        "409":
+          description: Operazione non completabile per violazione integrita' dei dati
           content:
             text/plain:
               schema:
@@ -294,7 +312,13 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/Prodotto'
+        "400":
+          description: Valori non ammessi
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prodotto'
   /cambusaDevel/init:
     get:
       tags:
@@ -305,7 +329,7 @@ paths:
         "200":
           description: OK
           content:
-            application/json:
+            text/plain:
               schema:
                 type: string
   /cambusa/tipi/{id}:
@@ -327,7 +351,9 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/Tipo'
+        "404":
+          description: Tipo non trovato
     delete:
       tags:
       - cambusa-controller
@@ -342,7 +368,13 @@ paths:
           format: uuid
       responses:
         "200":
-          description: OK
+          description: Cancellazione effettuata
+          content:
+            text/plain:
+              schema:
+                type: string
+        "409":
+          description: Operazione non completabile per violazione integrita' dei dati
           content:
             text/plain:
               schema:
@@ -361,12 +393,14 @@ paths:
           type: string
           format: uuid
       responses:
+        "404":
+          description: Posizione non trovata
         "200":
           description: OK
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/Posizione'
     delete:
       tags:
       - cambusa-controller
@@ -381,7 +415,13 @@ paths:
           format: uuid
       responses:
         "200":
-          description: OK
+          description: Cancellazione effettuata
+          content:
+            text/plain:
+              schema:
+                type: string
+        "409":
+          description: Operazione non completabile per violazione integrita' dei dati
           content:
             text/plain:
               schema:
@@ -438,11 +478,11 @@ components:
           $ref: '#/components/schemas/Tipo'
         posizione:
           $ref: '#/components/schemas/Posizione'
+        aperto:
+          type: boolean
         dataApertura:
           type: string
           format: date
-        aperto:
-          type: boolean
         quantita:
           minimum: 1
           type: integer
