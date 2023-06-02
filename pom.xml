@@ -87,9 +87,20 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/docs/api-docs.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/docs/api-docs.json</inputSpec>
                             <language>html2</language>
                             <output>${project.basedir}/docs</output>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>javascript</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/docs/api-docs.json</inputSpec>
+                            <language>javascript</language>
+                            <output>${project.basedir}/javascript</output>
                         </configuration>
                     </execution>
                 </executions>
