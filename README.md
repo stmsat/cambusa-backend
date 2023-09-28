@@ -6,7 +6,7 @@ Da [treccani.it](https://www.treccani.it/vocabolario/cambusa/):
 
 ## Obiettivo
 
-Creare un servizio backend RESTful per la tracciatura delle scadenze degli alimenti, anche tenendo conto delle differenze tra scadenze preferibili e tassative, avendo come ispirazione l'articolo [La vera data di scadenza degli alimenti - Il Post](https://www.ilpost.it/2020/04/19/mangiare-alimenti-dopo-data-scadenza/).
+Da intendersi come esercizio: creare un servizio backend RESTful per la tracciatura delle scadenze degli alimenti, anche tenendo conto delle differenze tra scadenze preferibili e tassative, avendo come ispirazione l'articolo [La vera data di scadenza degli alimenti - Il Post](https://www.ilpost.it/2020/04/19/mangiare-alimenti-dopo-data-scadenza/).
 
 La medesima logica potrebbe essere applicata in altri ambiti, ad esempio la tracciatura delle scadenze in un armadietto farmaci.
 
