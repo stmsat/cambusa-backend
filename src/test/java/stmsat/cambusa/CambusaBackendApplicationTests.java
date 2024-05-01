@@ -56,8 +56,8 @@ class CambusaBackendApplicationTests {
     void testListaProdottiFiltrata() throws Exception {
         mockMvc.perform(get("/cambusa/prodotti")
                 .param("name", "testname")
-                .param("tipo", UUID.randomUUID().toString())
-                .param("posizione", UUID.randomUUID().toString())
+                .param("tipo", "")
+                .param("posizione", "")
                 .param("dataScadenzaLt", "2024-12-31")
                 .param("dataScadenzaGt", "2022-01-01")
                 .param("dataScadenzaGenerataLt", "2024-12-31")
